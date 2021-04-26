@@ -27,5 +27,9 @@ class AnswerRepository extends BaseRepository
         $this->model->destroy($allAnswers->pluck('id')->toArray());
     }
 
+    public function hasAnswer($questionId)
+    {
+        return $this->model->where('question_id', $questionId)->exists();
+    }
 
 }

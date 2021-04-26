@@ -250,25 +250,32 @@ class QAndAService
      */
     private function handleAnswer($questionId) : void
     {
+        if(! $this->answerRepository->hasAnswer($questionId)) {
+            $this->answerTheQuestion($questionId);
+        } else {
+            $this->console->info(__('You answered this question'));
+        }
+        $this->showOptions($this->console);
+    }
+
+    private function answerTheQuestion($questionId)
+    {
         $answer     = $this->console->ask(__('Type your answer'));
         $question   = $this->questionRepository->resetQuery()->find($questionId);
         $isTrue     = (isset($question) && $question->valid_answer == $answer)
-                                                                        ? AnswerOptionsEnum::TRUE
-                                                                            : AnswerOptionsEnum::FALSE;
+            ? AnswerOptionsEnum::TRUE
+            : AnswerOptionsEnum::FALSE;
 
         $this->answerRepository->create([
             'question_id'   => $questionId,
             'answer'        => $answer,
             'is_true'       => $isTrue
         ]);
-
         $this->console->info(__('Answer Added successfully'));
 
         if( ! $this->questionRepository->hasUnAnsweredQuestions() ) {
             $this->showProgress();
         }
-
-        $this->showOptions($this->console);
     }
 
     /**
