@@ -5,30 +5,21 @@ namespace App\Console\Commands;
 use App\Services\QAndAService;
 use Illuminate\Console\Command;
 
-class QAndA extends Command
+class QAndAReset extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'qanda:interactive';
+    protected $signature = 'qanda:reset';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Runs an interactive command line based Q And A system.';
-
-
-    /**
-     * The service which handle tje business logic.
-     *
-     * @var string
-     */
-    protected $service;
-
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -48,7 +39,6 @@ class QAndA extends Command
      */
     public function handle()
     {
-        // Create your interactive Q And A system here. Be sure to make use of all of Laravels functionalities.
-        return $this->service->excute($this);
+        return $this->service->resetAnswers($this);
     }
 }
